@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediCare | Book an Appointment</title>
+    <style>
+        /* CSS Variables for consistent theming */
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg-color: #f0f4f8;
+            --text-main: #1e293b;
+            --text-light: #64748b;
+            --card-bg: #ffffff;
+            --border-radius: 16px;
+        }
+
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        /* Main Container */
+        .container {
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        /* 3D Card Grid Layout */
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            perspective: 1000px; /* Required for 3D effect */
+        }
+
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Card Styling */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transform-style: preserve-3d;
+        }
+
+        /* 3D Hover Effect */
+        .card:hover {
+            transform: translateY(-5px) rotateX(2deg) rotateY(2deg);
+            box-shadow: -5px 15px 30px rgba(0,0,0,0.1), 5px -5px 15px rgba(255,255,255,0.8);
+        }
+
+        /* Doctor Profile Specific */
+        .profile-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #93c5fd, #2563eb);
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 3rem;
+            font-weight: bold;
+            box-shadow: 0 8px 16px rgba(37, 99, 235, 0.3);
+        }
+
+        .profile-card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .profile-card .specialty {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .profile-card .bio {
+            color: var(--text-light);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* Booking Form Specific */
+        .booking-card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--bg-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-main);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Time Slots */
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .time-slot {
+            padding: 0.6rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .time-slot:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .time-slot.selected {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .time-slot.disabled {
+            background-color: #f1f5f9;
+            color: #94a3b8;
+            border-color: #e2e8f0;
+            cursor: not-allowed;
+            text-decoration: line-through;
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>Book Your Visit</h1>
+            <p>Schedule an appointment with our top specialists.</p>
+        </div>
+
+        <div class="grid-container">
+            <!-- Doctor's Profile Card -->
+            <div class="card profile-card">
+                <div class="profile-img">DS</div>
+                <h2>Dr. Sarah Jenkins</h2>
+                <div class="specialty">Cardiologist</div>
+                <p class="bio">
+                    Dr. Jenkins is a board-certified cardiologist with over 12 years of experience. 
+                    She specializes in preventive cardiology and heart disease management, 
+                    providing compassionate and personalized care to all her patients.
+                </p>
+            </div>
+
+            <!-- Appointment Booking Card -->
+            <div class="card booking-card">
+                <h2>Request Appointment</h2>
+                <form id="bookingForm">
+                    
+                    <div class="form-group">
+                        <label for="patientName">Full Name</label>
+                        <input type="text" id="patientName" required placeholder="John Doe">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="apptDate">Preferred Date</label>
+                        <input type="date" id="apptDate" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Available Timings</label>
+                        <div class="time-slots" id="timeSlots">
+                            <!-- Time slots will be generated by JS -->
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">Book Appointment</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. Setup Date Restrictions (Min date = Today) ---
+        const dateInput = document.getElementById('apptDate');
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        dateInput.min = `${yyyy}-${mm}-${dd}`;
+
+        // --- 2. Generate Time Slots ---
+        const timeSlotsContainer = document.getElementById('timeSlots');
+        const times = ['09:00 AM', '10:30 AM', '01:00 PM', '02:30 PM', '04:00 PM', '05:30 PM'];
+        let selectedTime = null;
+
+        times.forEach(time => {
+            const slot = document.createElement('div');
+            slot.className = 'time-slot';
+            slot.textContent = time;
+            
+            // Randomly disable a slot to simulate a booked appointment
+            if(time === '01:00 PM') {
+                slot.classList.add('disabled');
+            } else {
+                slot.addEventListener('click', () => selectTime(slot, time));
+            }
+            
+            timeSlotsContainer.appendChild(slot);
+        });
+
+        // --- 3. Handle Time Selection ---
+        function selectTime(element, time) {
+            // Remove 'selected' class from all slots
+            const allSlots = document.querySelectorAll('.time-slot');
+            allSlots.forEach(s => s.classList.remove('selected'));
+            
+            // Add 'selected' class to clicked slot
+            element.classList.add('selected');
+            selectedTime = time;
+        }
+
+        // --- 4. Handle Form Submission ---
+        const form = document.getElementById('bookingForm');
+        const submitBtn = document.getElementById('submitBtn');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault(); // Prevent page reload
+
+            const name = document.getElementById('patientName').value;
+            const date = document.getElementById('apptDate').value;
+
+            if (!selectedTime) {
+                alert("Please select an available time slot.");
+                return;
+            }
+
+            // Simulate successful booking (UI feedback)
+            submitBtn.textContent = "Booking Confirmed!";
+            submitBtn.style.backgroundColor = "#10b981"; // Green color
+            submitBtn.disabled = true;
+
+            alert(`Success!\n\nAppointment booked for ${name}\nDate: ${date}\nTime: ${selectedTime}\n\nDr. Sarah Jenkins will see you then.`);
+
+            // Reset form after 3 seconds
+            setTimeout(() => {
+                form.reset();
+                submitBtn.textContent = "Book Appointment";
+                submitBtn.style.backgroundColor = "";
+                submitBtn.disabled = false;
+                selectedTime = null;
+                document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+            }, 3000);
+        });
+    </script>
+</body>
+  </html>
