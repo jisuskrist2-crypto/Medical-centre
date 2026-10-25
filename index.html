@@ -1,333 +1,432 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MediCare | Book an Appointment</title>
-    <style>
-        /* CSS Variables for consistent theming */
-        :root {
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
-            --bg-color: #f0f4f8;
-            --text-main: #1e293b;
-            --text-light: #64748b;
-            --card-bg: #ffffff;
-            --border-radius: 16px;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediCare | Book an Appointment</title>
+  <meta name="description" content="Book a medical appointment online with MediCare.">
 
-        /* Basic Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        }
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-        }
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f3f7fb;
+      color: #243247;
+      line-height: 1.6;
+    }
 
-        /* Main Container */
-        .container {
-            width: 100%;
-            max-width: 1000px;
-        }
+    header {
+      background: #087f8c;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
 
-        .header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
+    header h1 {
+      font-size: 28px;
+      margin-bottom: 4px;
+    }
 
-        .header h1 {
-            font-size: 2.5rem;
-            color: var(--text-main);
-            margin-bottom: 0.5rem;
-        }
+    header p {
+      font-size: 14px;
+    }
 
-        .header p {
-            color: var(--text-light);
-            font-size: 1.1rem;
-        }
+    main {
+      max-width: 760px;
+      margin: 35px auto;
+      padding: 0 16px;
+    }
 
-        /* 3D Card Grid Layout */
-        .grid-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            perspective: 1000px; /* Required for 3D effect */
-        }
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 5px 24px rgba(20, 45, 70, 0.08);
+    }
 
-        @media (max-width: 768px) {
-            .grid-container {
-                grid-template-columns: 1fr;
-            }
-        }
+    .doctor {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: #eaf8f8;
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 26px;
+    }
 
-        /* Card Styling */
-        .card {
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            transform-style: preserve-3d;
-        }
+    .doctor-icon {
+      width: 60px;
+      height: 60px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      background: #087f8c;
+      color: white;
+      border-radius: 50%;
+      font-size: 28px;
+    }
 
-        /* 3D Hover Effect */
-        .card:hover {
-            transform: translateY(-5px) rotateX(2deg) rotateY(2deg);
-            box-shadow: -5px 15px 30px rgba(0,0,0,0.1), 5px -5px 15px rgba(255,255,255,0.8);
-        }
+    .doctor h2 {
+      font-size: 18px;
+    }
 
-        /* Doctor Profile Specific */
-        .profile-card {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
+    .doctor p {
+      color: #526579;
+      font-size: 14px;
+    }
 
-        .profile-img {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #93c5fd, #2563eb);
-            margin-bottom: 1.5rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 3rem;
-            font-weight: bold;
-            box-shadow: 0 8px 16px rgba(37, 99, 235, 0.3);
-        }
+    h3 {
+      margin-bottom: 16px;
+      font-size: 21px;
+    }
 
-        .profile-card h2 {
-            font-size: 1.5rem;
-            margin-bottom: 0.25rem;
-        }
+    .field {
+      margin-bottom: 20px;
+    }
 
-        .profile-card .specialty {
-            color: var(--primary);
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-weight: 600;
+      font-size: 14px;
+    }
 
-        .profile-card .bio {
-            color: var(--text-light);
-            line-height: 1.6;
-            font-size: 0.95rem;
-        }
+    input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 16px;
+      background: white;
+      color: #243247;
+    }
 
-        /* Booking Form Specific */
-        .booking-card h2 {
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            border-bottom: 2px solid var(--bg-color);
-            padding-bottom: 0.5rem;
-        }
+    input:focus {
+      outline: 2px solid #8bd5d9;
+      border-color: #087f8c;
+    }
 
-        .form-group {
-            margin-bottom: 1.2rem;
-        }
+    .time-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: var(--text-main);
-        }
+    .time-slot {
+      padding: 12px 8px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      background: white;
+      color: #243247;
+      cursor: pointer;
+      font-size: 14px;
+    }
 
-        .form-group input {
-            width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.2s;
-        }
+    .time-slot:hover:not(:disabled) {
+      border-color: #087f8c;
+    }
 
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
+    .time-slot.selected {
+      background: #087f8c;
+      color: white;
+      border-color: #087f8c;
+    }
 
-        /* Time Slots */
-        .time-slots {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
+    .time-slot:disabled {
+      background: #edf0f3;
+      color: #929ba7;
+      cursor: not-allowed;
+    }
 
-        .time-slot {
-            padding: 0.6rem;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            background: white;
-            cursor: pointer;
-            text-align: center;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
+    .submit-btn {
+      width: 100%;
+      margin-top: 24px;
+      padding: 15px;
+      border: none;
+      border-radius: 9px;
+      background: #087f8c;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
 
-        .time-slot:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
+    .submit-btn:hover {
+      background: #066873;
+    }
 
-        .time-slot.selected {
-            background-color: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
+    .submit-btn:disabled {
+      opacity: 0.65;
+      cursor: wait;
+    }
 
-        .time-slot.disabled {
-            background-color: #f1f5f9;
-            color: #94a3b8;
-            border-color: #e2e8f0;
-            cursor: not-allowed;
-            text-decoration: line-through;
-        }
+    #statusMessage {
+      display: none;
+      margin-top: 18px;
+      padding: 12px;
+      border-radius: 8px;
+      overflow-wrap: anywhere;
+      font-size: 14px;
+    }
 
-        /* Submit Button */
-        .submit-btn {
-            width: 100%;
-            padding: 1rem;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.2s, transform 0.1s;
-        }
+    #statusMessage.success {
+      display: block;
+      background: #e6f7ed;
+      color: #17643a;
+    }
 
-        .submit-btn:hover {
-            background-color: var(--primary-hover);
-        }
+    #statusMessage.error {
+      display: block;
+      background: #fff0f0;
+      color: #a12626;
+    }
 
-        .submit-btn:active {
-            transform: scale(0.98);
-        }
-    </style>
+    .note {
+      margin-top: 18px;
+      color: #64748b;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    footer {
+      padding: 20px;
+      text-align: center;
+      color: #64748b;
+      font-size: 13px;
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 20px;
+      }
+
+      header h1 {
+        font-size: 24px;
+      }
+
+      .time-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
 </head>
+
 <body>
+  <header>
+    <h1>MediCare</h1>
+    <p>Your health, our priority</p>
+  </header>
 
-    <div class="container">
-        <div class="header">
-            <h1>Book Your Visit</h1>
-            <p>Schedule an appointment with our top specialists.</p>
+  <main>
+    <section class="card">
+      <div class="doctor">
+        <div class="doctor-icon" aria-hidden="true">+</div>
+        <div>
+          <h2>Medical Appointment</h2>
+          <p>Book a preferred date and time</p>
+        </div>
+      </div>
+
+      <h3>Book an Appointment</h3>
+
+      <form id="bookingForm">
+        <div class="field">
+          <label for="patientName">Full Name</label>
+          <input
+            type="text"
+            id="patientName"
+            name="patientName"
+            placeholder="Enter your full name"
+            maxlength="100"
+            autocomplete="name"
+            required
+          >
         </div>
 
-        <div class="grid-container">
-            <!-- Doctor's Profile Card -->
-            <div class="card profile-card">
-                <div class="profile-img">DS</div>
-                <h2>Dr. Sarah Jenkins</h2>
-                <div class="specialty">Cardiologist</div>
-                <p class="bio">
-                    Dr. Jenkins is a board-certified cardiologist with over 12 years of experience. 
-                    She specializes in preventive cardiology and heart disease management, 
-                    providing compassionate and personalized care to all her patients.
-                </p>
-            </div>
-
-            <!-- Appointment Booking Card -->
-            <div class="card booking-card">
-                <h2>Request Appointment</h2>
-                <form id="bookingForm">
-                    
-                    <div class="form-group">
-                        <label for="patientName">Full Name</label>
-                        <input type="text" id="patientName" required placeholder="John Doe">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="apptDate">Preferred Date</label>
-                        <input type="date" id="apptDate" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Available Timings</label>
-                        <div class="time-slots" id="timeSlots">
-                            <!-- Time slots will be generated by JS -->
-                        </div>
-                    </div>
-
-                    <button type="submit" class="submit-btn" id="submitBtn">Book Appointment</button>
-                </form>
-            </div>
+        <div class="field">
+          <label for="apptDate">Preferred Date</label>
+          <input
+            type="date"
+            id="apptDate"
+            name="apptDate"
+            required
+          >
         </div>
-    </div>
 
-    <script>
-        // --- 1. Setup Date Restrictions (Min date = Today) ---
-        const dateInput = document.getElementById('apptDate');
-        const today = new Date();
-        const yyyy = today.getFullYear();
-        const mm = String(today.getMonth() + 1).padStart(2, '0');
-        const dd = String(today.getDate()).padStart(2, '0');
-        dateInput.min = `${yyyy}-${mm}-${dd}`;
+        <div class="field">
+          <label>Choose a Time</label>
+          <div class="time-grid" id="timeSlots">
+            <button type="button" class="time-slot"
+              data-time="09:00 AM">09:00 AM</button>
 
-        // --- 2. Generate Time Slots ---
-        const timeSlotsContainer = document.getElementById('timeSlots');
-        const times = ['09:00 AM', '10:30 AM', '01:00 PM', '02:30 PM', '04:00 PM', '05:30 PM'];
-        let selectedTime = null;
+            <button type="button" class="time-slot"
+              data-time="10:30 AM">10:30 AM</button>
 
-        times.forEach(time => {
-            const slot = document.createElement('div');
-            slot.className = 'time-slot';
-            slot.textContent = time;
-            
-            // Randomly disable a slot to simulate a booked appointment
-            if(time === '01:00 PM') {
-                slot.classList.add('disabled');
-            } else {
-                slot.addEventListener('click', () => selectTime(slot, time));
-            }
-            
-            timeSlotsContainer.appendChild(slot);
+            <button type="button" class="time-slot" disabled
+              aria-disabled="true">01:00 PM — Unavailable</button>
+
+            <button type="button" class="time-slot"
+              data-time="02:30 PM">02:30 PM</button>
+
+            <button type="button" class="time-slot"
+              data-time="04:00 PM">04:00 PM</button>
+
+            <button type="button" class="time-slot"
+              data-time="05:30 PM">05:30 PM</button>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBtn">
+          Book Appointment
+        </button>
+
+        <div id="statusMessage" role="status" aria-live="polite"></div>
+      </form>
+
+      <p class="note">
+        Demo booking form. Confirm appointments directly with the medical centre.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    &copy; <span id="currentYear"></span> MediCare. Demo website.
+  </footer>
+
+  <!-- Supabase JavaScript library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    // Supabase project configuration
+    const SUPABASE_URL =
+      'https://swfpejqivgastkdjntcc.supabase.co';
+
+    const SUPABASE_KEY =
+      'sb_publishable_0eJjwEzqKK82DrAaYB16Qg_dY1uOPYH';
+
+    const supabaseClient = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+    const bookingForm = document.getElementById('bookingForm');
+    const patientName = document.getElementById('patientName');
+    const apptDate = document.getElementById('apptDate');
+    const submitBtn = document.getElementById('submitBtn');
+    const statusMessage = document.getElementById('statusMessage');
+    const timeSlots = document.getElementById('timeSlots');
+
+    let selectedTime = '';
+
+    // Set the earliest selectable date to today.
+    const today = new Date();
+    const localToday = [
+      today.getFullYear(),
+      String(today.getMonth() + 1).padStart(2, '0'),
+      String(today.getDate()).padStart(2, '0')
+    ].join('-');
+
+    apptDate.min = localToday;
+    document.getElementById('currentYear').textContent =
+      today.getFullYear();
+
+    // Allow the visitor to select a time slot.
+    timeSlots.addEventListener('click', function (event) {
+      const button = event.target.closest('.time-slot');
+
+      if (!button || button.disabled) return;
+
+      document.querySelectorAll('.time-slot').forEach(function (slot) {
+        slot.classList.remove('selected');
+        slot.setAttribute('aria-pressed', 'false');
+      });
+
+      button.classList.add('selected');
+      button.setAttribute('aria-pressed', 'true');
+      selectedTime = button.dataset.time;
+    });
+
+    function showMessage(message, type) {
+      statusMessage.textContent = message;
+      statusMessage.className = type;
+    }
+
+    bookingForm.addEventListener('submit', async function (event) {
+      event.preventDefault();
+
+      const name = patientName.value.trim();
+      const date = apptDate.value;
+
+      if (!name || !date || !selectedTime) {
+        showMessage(
+          'Please enter your name, choose a date, and select a time.',
+          'error'
+        );
+        return;
+      }
+
+      if (date < localToday) {
+        showMessage('Please choose today or a future date.', 'error');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting...';
+      statusMessage.className = '';
+      statusMessage.style.display = 'none';
+
+      try {
+        // Insert only. Do not use .select() because this demo
+        // has INSERT permission, but does not require SELECT access.
+        const { error } = await supabaseClient
+          .from('appointments')
+          .insert([{
+            full_name: name,
+            preferred_date: date,
+            preferred_time: selectedTime
+          }]);
+
+        if (error) {
+          throw error;
+        }
+
+        showMessage(
+          'Your appointment request has been submitted successfully. Please contact the medical centre to confirm your appointment.',
+          'success'
+        );
+
+        bookingForm.reset();
+        selectedTime = '';
+
+        document.querySelectorAll('.time-slot').forEach(function (slot) {
+          slot.classList.remove('selected');
+          slot.setAttribute('aria-pressed', 'false');
         });
 
-        // --- 3. Handle Time Selection ---
-        function selectTime(element, time) {
-            // Remove 'selected' class from all slots
-            const allSlots = document.querySelectorAll('.time-slot');
-            allSlots.forEach(s => s.classList.remove('selected'));
-            
-            // Add 'selected' class to clicked slot
-            element.classList.add('selected');
-            selectedTime = time;
-        }
+        apptDate.min = localToday;
 
-        // --- 4. Handle Form Submission ---
-        const form = document.getElementById('bookingForm');
-        const submitBtn = document.getElementById('submitBtn');
+      } catch (error) {
+        console.error('Appointment submission failed:', error);
 
-        form.addEventListener('submit', (e) => {
-            e.preventDefault(); // Prevent page reload
-
-            const name = document.getElementById('patientName').value;
-            const date = document.getElementById('apptDate').value;
-
-            if (!selectedTime) {
-                alert("Please select an available time slot.");
-                return;
-            }
-
-            // Simulate successful booking (UI feedback)
+        showMessage(
+          'We could not submit your appointment. Please check your connection and try again.',
+          'error'
+        );
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Book Appointment';
+      }
+    });
+  </script>
+</body>
+</html>
+ate successful booking (UI feedback)
             submitBtn.textContent = "Booking Confirmed!";
             submitBtn.style.backgroundColor = "#10b981"; // Green color
             submitBtn.disabled = true;
